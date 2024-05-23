@@ -34,4 +34,5 @@ def process_guess():
 @app.route('/high_score', methods=['POST'])
 def high_score():
     received_data = request.get_json()
+    print('received_data:', received_data)
     return "Data received successfully!"

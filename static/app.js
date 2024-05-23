@@ -102,8 +102,10 @@ function gameTimer() {
         if (seconds === 0) {
         clearInterval(intervalId);
         timerElement.textContent = "Time's up!";
+        // When time's up, remove the enter guess form
         const removeGuessForm = document.getElementById("guessForm");
         removeGuessForm.remove();
+        // When time's up, send the highScore to the server
         const resp = axios.post('/high_score', JSON.stringify(localStorage.getItem('highScore')), {headers: { 'Content-Type': 'application/json' }})
         console.log('high_score sent to server. Response:', resp.data)
         }
