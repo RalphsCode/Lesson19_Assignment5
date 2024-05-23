@@ -30,3 +30,8 @@ def process_guess():
     board = session['boggle_board']
     output = boggle_game.check_valid_word(board, guess)
     return jsonify({'result': output})
+
+@app.route('/high_score', methods=['POST'])
+def high_score():
+    received_data = request.get_json()
+    return "Data received successfully!"

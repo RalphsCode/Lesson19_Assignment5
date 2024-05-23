@@ -8,13 +8,25 @@ gameTimer()
 const guessForm = document.getElementById("guessForm");
 guessForm.addEventListener("submit", processForm);
 
-// Set the initiel High Score mark on the game page
+// Create an event listener for the Reset High Score button on the game page
+const resetScore = document.getElementById("resetHighScore");
+resetScore.addEventListener("click", resetHighScore);
+
+// Set the initial High Score mark on the game page
 const legacyHighScore = document.getElementById("highScore");
 const currentHighScore = localStorage.getItem('highScore')
 if (currentHighScore) {
     legacyHighScore.innerHTML = currentHighScore
 } else {
     legacyHighScore.innerHTML = '0'
+}
+
+// Reset the High Score
+function resetHighScore(event) {
+    // event.preventDefault();
+    localStorage.setItem('highScore', 0);
+    console.log('High Score has been RESET to 0');
+    $('#highScore').text(0)
 }
 
 
@@ -24,7 +36,7 @@ function processForm(event) {
     Reset the input box.*/
     event.preventDefault();
     // use jQuery to get the input value, and strip any spaces
-    const guessValue = $('#guess').val().trim(); 
+    const guessValue = $('#guess').val().toLowerCase().trim(); 
     // Clear the input, and make focus
     $('#guess').val('').focus()
     // Send the guess to get checked
@@ -92,6 +104,8 @@ function gameTimer() {
         timerElement.textContent = "Time's up!";
         const removeGuessForm = document.getElementById("guessForm");
         removeGuessForm.remove();
+        const resp = axios.post('/high_score', JSON.stringify(localStorage.getItem('highScore')), {headers: { 'Content-Type': 'application/json' }})
+        console.log('high_score sent to server. Response:', resp.data)
         }
     }, 1000); // Call the function every second
 }  // END gameTimer()
