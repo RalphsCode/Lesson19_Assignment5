@@ -4,7 +4,8 @@ Ralph's Boggle Game - Home
 {% endblock %}
 {% block content %}
 <h1>Ralph's Boggle Game</h1>
-<form action="/run_boggle_game">
+<form action="/run_boggle_game" id="startForm">
+    <input type="text" placeholder="first name" id="username">
     <button>Start a game!</button>
 </form>
 {% endblock %}

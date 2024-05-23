@@ -1,3 +1,4 @@
+<!-- The Game Page -->
 {% extends 'base.html' %}
 {% block title %}
 Ralph's Boggle Game
@@ -13,7 +14,7 @@ Ralph's Boggle Game
     {% endfor %}
 </tr>
 {% endfor %}    
-<h3>Your Score: <span id="score">0</span></p>
+<h3>Your Score: <span id="score">0</span> High Score: <span id="highScore"></span></p>
 </table>
 <form id="guessForm">
     <input type="text" placeholder="Enter Guess" name="guess" id="guess">

@@ -1,57 +1,69 @@
 console.log('JS is running.')
 
-// import axios from 'axios';
-// const fs = require('fs');
+let score = 0
 
-const form = document.getElementById("guessForm");
-form.addEventListener("submit", processForm);
+// Create an event listener for the submit guess button on the game page
+const guessForm = document.getElementById("guessForm");
+guessForm.addEventListener("submit", processForm);
+
+// Set the initiel High Score mark on the game page
+const legacyHighScore = document.getElementById("highScore");
+const currentHighScore = localStorage.getItem('highScore')
+if (currentHighScore) {
+    legacyHighScore.innerHTML = currentHighScore
+} else {
+    legacyHighScore.innerHTML = '0'
+}
 
 
 function processForm(event) {
+    /* Get the user's guess from the input box on the game page.
+    Send the guess to be checked by processForm() 
+    Reset the input box.*/
     event.preventDefault();
-    const guessValue = $('#guess').val(); // using jQuery to get the input value
+    // use jQuery to get the input value
+    const guessValue = $('#guess').val(); 
     // Clear the input, and make focus
     $('#guess').val('').focus()
+    // Send the guess to get checked
     checkGuess(guessValue);
-  }
+  }   // END processForm()
   
 
-// async function checkGuessAxios(guess) {
-//     console.log('checkGuess is running, will look for:', guess)
-//     apiLookUp = await axios.get('words.txt')
-//         // Process the fetched data
-//         words = apiLookUp.data; 
-//         if (words) {
-//             console.log('words has been loaded.')
-//             // Search for the argument within the entries
-//             const foundEntry = words.find(entry => entry.includes(guess));
-//             if (foundEntry) {
-//                 console.log(guess, 'has been found!')
-//         } else {
-//             console.log('words have not been loaded.')
-//             }
-//         } // End if
-// }  // End function
-
-let score = 0
 async function checkGuess(guess) {
-    
-    /* I need to take the guess, and send it back to the server/Python
-    and see if it is in the words file. Then return a message to
-    the frontend/JS, to display. */
+    /* Send the user's guess to the server / Python to be verified
+    Based on the validity of the guess, display the result on the game page */
     const resp = await axios.get("/process_guess", { params: { guess: guess }});
-    
     if (resp.data['result'] == 'ok'){
-        outputText = $('<li> NICE! "' + guess + '" is a word, and is on the board!' + '</li>');
+        outputText = $('<li> NICE! "' + guess + '" is a word, and is on the board!' + ' +' + guess.length + '</li>');
+        // a valid word was found, and the score is updated
         score = score + guess.length
     } else if (resp.data['result'] == 'not-word'){
         outputText = $('<li>"' + guess + '" is not a word that I know!' + '</li>');
     } else {
         outputText = $('<li> OOops! "' + guess + '" is indeed a word, but I cannot find it on the board!' + '</li>');
-    }
+    }  // END if...
 
-    // Add the outputText to the DOM
+    // Send the score to be checked with the highScore 
+    let topScore = highScore(score)
+
+    // Update the DOM / game page
     $('#score').text(score)
+    $('#highScore').text(topScore)
+    // add the result of checking the user's guess
     $('li:first').before(outputText); 
+}   // END checkGuess()
 
-}   
+
+function highScore(score) {
+    /* Check how the score compares to the high score.
+    If the current score is higher: set it as the highscore
+    and update the localStorage highScore variable. */
+    let bestScore = localStorage.getItem('highScore')
+    if (bestScore === null || score > bestScore) {
+        localStorage.setItem('highScore', score)
+        return score
+    } else { 
+        return bestScore 
+    }
+    } // END highScore()
