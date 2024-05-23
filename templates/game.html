@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+Ralph's Boggle Game
+{% endblock %}
+{% block content %}
+<h1>Ralph's Boggle Game</h1>
+<table>
+{% for line in session.boggle_board %}
+<tr>
+    {% for letter in line %}
+    <td>
+    {{ letter }} </td>
+    {% endfor %}
+</tr>
+{% endfor %}    
+<h3>Your Score: <span id="score">0</span></p>
+</table>
+<form id="guessForm">
+    <input type="text" placeholder="Enter Guess" name="guess" id="guess">
+    <button type="submit">GO!</button>
+</form>
+<ol>
+    <li>Your guesses appear here</li>
+</ol>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="static/app.js"></script>
+{% endblock %}
