@@ -1,6 +1,7 @@
 console.log('JS is running.')
 
 let score = 0
+let guesses = []
 
 // Create an event listener for the submit guess button on the game page
 const guessForm = document.getElementById("guessForm");
@@ -35,9 +36,16 @@ async function checkGuess(guess) {
     Based on the validity of the guess, display the result on the game page */
     const resp = await axios.get("/process_guess", { params: { guess: guess }});
     if (resp.data['result'] == 'ok'){
+        // Check if the guess was already found
+        const guessIndex = guesses.indexOf(guess);
+        if (guessIndex != -1) {
+            outputText = $('<li> Repeat! - "' + guess + '" was already found.' + '</li>')
+        } else {
         outputText = $('<li> NICE! "' + guess + '" is a word, and is on the board!' + ' +' + guess.length + '</li>');
         // a valid word was found, and the score is updated
         score = score + guess.length
+        guesses.push(guess)
+        }  // END if...
     } else if (resp.data['result'] == 'not-word'){
         outputText = $('<li>"' + guess + '" is not a word that I know!' + '</li>');
     } else {
