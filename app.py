@@ -15,14 +15,9 @@ def start_game():
     session['boggle_board']=boggle_board 
     return boggle_game
 
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
 @app.route('/run_boggle_game')
 def run_boggle_game():
     global boggle_game
-    username = request.args.get('username', 'User')
     boggle_game = start_game()
     return render_template('game.html')
 

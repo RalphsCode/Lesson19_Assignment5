@@ -15,10 +15,14 @@ Ralph's Boggle Game
 </tr>
 {% endfor %}    
 <h3>Your Score: <span id="score">0</span> High Score: <span id="highScore"></span></p>
-</table>
+<p id="timer"></p></table>
 <form id="guessForm">
     <input type="text" placeholder="Enter Guess" name="guess" id="guess">
-    <button type="submit">GO!</button>
+    <button type="submit" id="submit_guess">GO!</button>
+</form>
+<br>
+<form action="/run_boggle_game">
+    <button type="submit">Start New Game</button>
 </form>
 <ol>
     <li>Your guesses appear here</li>

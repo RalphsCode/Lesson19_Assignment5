@@ -2,6 +2,7 @@ console.log('JS is running.')
 
 let score = 0
 let guesses = []
+gameTimer()
 
 // Create an event listener for the submit guess button on the game page
 const guessForm = document.getElementById("guessForm");
@@ -74,4 +75,23 @@ function highScore(score) {
     } else { 
         return bestScore 
     }
-    } // END highScore()
+} // END highScore()
+
+
+function gameTimer() {
+    /* Sets a game timer, that once expired removes the submit
+    button from the game page. */
+    let seconds = 60;
+    const timerElement = document.getElementById("timer"); 
+    
+    const intervalId = setInterval(() => {
+        seconds--;
+        timerElement.textContent = `${seconds} seconds remaining`;
+        if (seconds === 0) {
+        clearInterval(intervalId);
+        timerElement.textContent = "Time's up!";
+        const removeButton = document.getElementById("submit_guess");
+        removeButton.remove();
+        }
+    }, 1000); // Call the function every second
+}  // END gameTimer()
