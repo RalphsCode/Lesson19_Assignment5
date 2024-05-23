@@ -5,6 +5,14 @@ Ralph's Boggle Game
 {% endblock %}
 {% block content %}
 <h1>Ralph's Boggle Game</h1>
+
+<!-- Show the stats & timer -->
+<p>Times Played: {{times_played}}</p>
+<p>High Score: <span id="highScore"></span></p>
+<h3>Your Score: <span id="score">0</span> </h3>
+<p id="timer"></p>
+
+<!-- Display the game board -->
 <table>
 {% for line in session.boggle_board %}
 <tr>
@@ -14,21 +22,27 @@ Ralph's Boggle Game
     {% endfor %}
 </tr>
 {% endfor %}    
-<h3>Your Score: <span id="score">0</span> High Score: <span id="highScore"></span></p>
-<p id="timer"></p></table>
+</table>
+
+<!-- Show the guess a word form & button-->
 <form id="guessForm">
     <input type="text" placeholder="Enter Guess" name="guess" id="guess">
     <button type="submit" id="submit_guess">GO!</button>
 </form>
 <br>
+<!-- Restart / Start a new game button -->
 <form action="/run_boggle_game">
     <button type="submit">Start New Game</button>
 </form>
+<!-- Display the user's guesses -->
 <ol>
-    <li>Your guesses appear here</li>
+    <li>Your guesses...</li>
 </ol>
 
+<!-- Import Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="static/app.js"></script>
+
+<!-- End the page content -->
 {% endblock %}

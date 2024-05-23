@@ -23,8 +23,8 @@ function processForm(event) {
     Send the guess to be checked by processForm() 
     Reset the input box.*/
     event.preventDefault();
-    // use jQuery to get the input value
-    const guessValue = $('#guess').val(); 
+    // use jQuery to get the input value, and strip any spaces
+    const guessValue = $('#guess').val().trim(); 
     // Clear the input, and make focus
     $('#guess').val('').focus()
     // Send the guess to get checked
@@ -90,8 +90,8 @@ function gameTimer() {
         if (seconds === 0) {
         clearInterval(intervalId);
         timerElement.textContent = "Time's up!";
-        const removeButton = document.getElementById("submit_guess");
-        removeButton.remove();
+        const removeGuessForm = document.getElementById("guessForm");
+        removeGuessForm.remove();
         }
     }, 1000); // Call the function every second
 }  // END gameTimer()
