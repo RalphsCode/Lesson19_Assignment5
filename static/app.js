@@ -23,7 +23,7 @@ if (currentHighScore) {
 
 // Reset the High Score
 function resetHighScore(event) {
-    // event.preventDefault();
+    /* Resets the High Score when the button is clicked */
     localStorage.setItem('highScore', 0);
     console.log('High Score has been RESET to 0');
     $('#highScore').text(0)
@@ -106,7 +106,7 @@ function gameTimer() {
         const removeGuessForm = document.getElementById("guessForm");
         removeGuessForm.remove();
         // When time's up, send the highScore to the server
-        const resp = axios.post('/high_score', JSON.stringify(localStorage.getItem('highScore')), {headers: { 'Content-Type': 'application/json' }})
+        const resp = axios.post('/high_score', JSON.parse(localStorage.getItem('highScore')), {headers: { 'Content-Type': 'application/json' }})
         console.log('high_score sent to server. Response:', resp.data)
         }
     }, 1000); // Call the function every second
